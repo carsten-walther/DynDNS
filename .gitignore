@@ -1,0 +1,5 @@
+.idea/
+data
+vendor
+
+php_error.log

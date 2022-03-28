@@ -1,0 +1,20 @@
+{
+	"name": "carstenwalther/dyndns",
+	"description": "Dynamic DNS for AVM FritzBox",
+	"type": "project",
+	"license": "GPL-3.0-or-later",
+	"authors": [
+		{
+			"name": "Carsten Walther",
+			"email": "walther.carsten@web.de"
+		}
+	],
+	"require": {
+		"php": "7.3 || 7.4 || 8.0 || 8.1"
+    },
+	"autoload": {
+		"psr-4": {
+			"CarstenWalther\\DynDNS\\": "app/Classes"
+		}
+	}
+}
