@@ -4,6 +4,7 @@ namespace CarstenWalther\DynDNS\Controller;
 
 use CarstenWalther\DynDNS\Domain\Model\Dns;
 use CarstenWalther\DynDNS\Domain\Repository\DnsRepository;
+use CarstenWalther\DynDNS\Service\ProxyService;
 use Exception;
 
 /**
@@ -20,6 +21,11 @@ class DynDnsController
      * @var DnsRepository
      */
     protected $dnsRepository;
+
+    /**
+     * @var Dns
+     */
+    protected $dns;
 
     /**
      * @param string $basePath
@@ -57,15 +63,29 @@ class DynDnsController
         $domain = key_exists('domain', $_GET) ? $_GET['domain'] : '';
 
         if ($mode === 'dyndns' && $user === USERNAME && $pass === PASSWORD) {
-            $dns = new Dns();
-            $dns->setIp($ip)->setIp6($ip6)->setDomain($domain);
-            $this->dnsRepository->add($dns);
+
+            $this->dns = new Dns();
+            $this->dns->setIp($ip)->setIp6($ip6)->setDomain($domain);
+            $this->dnsRepository->add($this->dns);
+
         } else {
-            $dns = $this->dnsRepository->get();
-            if ($dns) {
-                $requestUri = $_SERVER['REQUEST_URI'];
-                $url = PROTOCOL . '://' . $dns->getIp() . ':' . PORT . PATH . $requestUri;
-                header("Location: " . $url, true, 302);
+
+            $this->dns = $this->dnsRepository->findLatest();
+
+            if ($this->dns) {
+                if (USE_PROXY) {
+
+                    $targetUrl = PROTOCOL . '://' . (USE_IP6 ? '[' . $this->dns->getIp6() . ']' : $this->dns->getIp()) . (PORT ? ':' . PORT : '') . PATH . $_SERVER['REQUEST_URI'];
+
+                    $proxyService = new ProxyService();
+                    $proxyService::$ENABLE_AUTH = false;
+                    $proxyService::$TARGET_URL = $targetUrl;
+                    $proxyService::$DEBUG = false;
+                    $proxyService->run();
+
+                } else {
+                    header("Location: " . PROTOCOL . '://' . (USE_IP6 ? '[' . $this->dns->getIp6() . ']' : $this->dns->getIp()) . ':' . PORT . PATH . $_SERVER['REQUEST_URI'], true, 302);
+                }
             } else {
                 http_response_code(404);
             }

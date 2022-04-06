@@ -26,7 +26,7 @@ class DnsRepository extends AbstractRepository
     /**
      * @return Dns|null
      */
-    public function get(): ?Dns
+    public function findLatest(): ?Dns
     {
         $resource = fopen($this->file, "r+");
         $content = fread($resource, filesize($this->file) > 0 ? filesize($this->file) : 1);
