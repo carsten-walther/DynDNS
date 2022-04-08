@@ -3,6 +3,7 @@
 	"description": "Dynamic DNS for AVM FritzBox",
 	"type": "project",
 	"license": "GPL-3.0-or-later",
+	"minimum-stability": "dev",
 	"authors": [
 		{
 			"name": "Carsten Walther",
@@ -12,7 +13,8 @@
 	"require": {
 		"php": "~7.3 || ~7.4 || ~8.0 || ~8.1",
 		"ext-curl": "*",
-		"ext-zlib": "*"
+		"ext-zlib": "*",
+		"athlon1600/php-proxy": "dev-master"
 	},
 	"autoload": {
 		"psr-4": {

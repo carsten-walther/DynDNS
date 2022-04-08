@@ -17,8 +17,8 @@ class DnsRepository extends AbstractRepository
     public function add(Dns $dns): void
     {
         $content = (new DateTime('now'))->getTimestamp() . $this->delimiter . $dns->getDomain() . $this->delimiter . $dns->getIp() . $this->delimiter . $dns->getIp6() . PHP_EOL;
+        $resource = fopen($this->file, 'wb');
 
-        $resource = fopen($this->file, "w");
         fwrite($resource, $content);
         fclose($resource);
     }
@@ -28,13 +28,14 @@ class DnsRepository extends AbstractRepository
      */
     public function findLatest(): ?Dns
     {
-        $resource = fopen($this->file, "r+");
+        $resource = fopen($this->file, 'rb+');
         $content = fread($resource, filesize($this->file) > 0 ? filesize($this->file) : 1);
+
         fclose($resource);
 
         $content = explode($this->delimiter, trim($content));
 
-        if (sizeof($content) < 4) {
+        if (count($content) < 4) {
             return null;
         }
 

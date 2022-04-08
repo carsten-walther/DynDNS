@@ -8,12 +8,12 @@ namespace CarstenWalther\DynDNS\Utility;
 class DebugUtility
 {
     /**
-     * @param             $variable
+     * @param mixed $variable
+     * @param bool $die
      * @param string|null $title
-     *
      * @return string
      */
-    public static function var_dump($variable, string $title = null): string
+    public static function var_dump($variable, bool $die = true, string $title = null): string
     {
         $output = '<div class="debugger-utility">';
         if ($title) {
@@ -25,6 +25,10 @@ class DebugUtility
         $output .= '</div>';
 
         echo $output . (new self)->css();
+
+        if ($die) {
+            die();
+        }
 
         return '';
     }

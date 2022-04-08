@@ -4,17 +4,73 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3e0e6073e92eb5210ebdbca43eb9dba8",
-    "packages": [],
+    "content-hash": "48292e90912e3946c5444a919fc2f196",
+    "packages": [
+        {
+            "name": "athlon1600/php-proxy",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Athlon1600/php-proxy.git",
+                "reference": "14e2a38e5b424d69fff82171e357d658ee158e11"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Athlon1600/php-proxy/zipball/14e2a38e5b424d69fff82171e357d658ee158e11",
+                "reference": "14e2a38e5b424d69fff82171e357d658ee158e11",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "7"
+            },
+            "suggest": {
+                "predis/predis": "For caching purposes"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "Proxy\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "homepage": "https://www.php-proxy.com/",
+            "keywords": [
+                "php proxy",
+                "php proxy script",
+                "php web proxy",
+                "proxy script",
+                "web proxy"
+            ],
+            "support": {
+                "issues": "https://github.com/Athlon1600/php-proxy/issues",
+                "source": "https://github.com/Athlon1600/php-proxy/tree/master"
+            },
+            "time": "2020-06-16T13:53:45+00:00"
+        }
+    ],
     "packages-dev": [],
     "aliases": [],
-    "minimum-stability": "stable",
-    "stability-flags": [],
+    "minimum-stability": "dev",
+    "stability-flags": {
+        "athlon1600/php-proxy": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "~7.3 || ~7.4 || ~8.0 || ~8.1"
+        "php": "~7.3 || ~7.4 || ~8.0 || ~8.1",
+        "ext-curl": "*",
+        "ext-zlib": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.3.0"
 }

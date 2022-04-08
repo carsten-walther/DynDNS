@@ -39,6 +39,7 @@ abstract class AbstractRepository
     {
         $this->delimiter = $delimiter;
         $this->readOnly = $readOnly;
+
         $this->checkPathAndFilename($basePath, $filename);
         $this->initFile($basePath, $filename);
         $this->init();
@@ -51,11 +52,12 @@ abstract class AbstractRepository
      */
     public function checkPathAndFilename(string $basePath, string $filename): void
     {
-        if (!is_dir($basePath)) {
-            mkdir($basePath, 0755);
+        if (!is_dir($basePath) && !mkdir($basePath, 0755) && !is_dir($basePath)) {
+            throw new \RuntimeException(sprintf('Directory "%s" was not created', $basePath));
         }
+
         if (!file_exists($basePath . DIRECTORY_SEPARATOR . $filename)) {
-            $file = fopen($basePath . DIRECTORY_SEPARATOR . $filename, 'w') or die('Error opening file: ' . $basePath . DIRECTORY_SEPARATOR . $filename);
+            $file = fopen($basePath . DIRECTORY_SEPARATOR . $filename, 'wb') or die('Error opening file: ' . $basePath . DIRECTORY_SEPARATOR . $filename);
             fclose($file);
         }
     }
@@ -76,6 +78,7 @@ abstract class AbstractRepository
         } else {
             throw new InvalidArgumentException('Path to file must be valid.');
         }
+
         return $this;
     }
 
@@ -88,6 +91,7 @@ abstract class AbstractRepository
             $mode = $this->readOnly ? 'r' : 'r+';
             $this->content = fopen($this->file, $mode);
         }
+
         return $this;
     }
 }
